@@ -1,3 +1,5 @@
+CC0 1.0 Universal
+
 As a work of the United States government, this project is in the
 public domain within the United States.
 
