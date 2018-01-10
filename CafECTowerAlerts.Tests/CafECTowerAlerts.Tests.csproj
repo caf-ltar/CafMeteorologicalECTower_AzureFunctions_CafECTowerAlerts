@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net461</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Azure.WebJobs" Version="2.1.0-beta4" />
+    <PackageReference Include="Nsar.Nodes.CafEcTower.LoggerNet" Version="0.7.2" />
+    <PackageReference Include="xunit" Version="2.3.1" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.3.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CheckStatusCookEast\CafECTowerAlerts.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Assets\CookEastEcTower_Flux_Raw_2017_11_03_1300_2linesBadCO2.dat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\CookEastEcTower_Flux_Raw_2017_11_03_1300_2linesBadCO2BadNAN.dat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\CookEastEcTower_Flux_Raw_2017_11_03_1300_badNAN.dat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\CookEastEcTower_Flux_Raw_2017_11_03_1300_okNAN.dat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>
