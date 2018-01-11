@@ -102,13 +102,13 @@ namespace Caf.CafMeteorologicalECTower.CafECTowerAlerts.CheckStatusCookEast.Core
 
             foreach (Flux ob in obs)
             {
-                if (ob.CO2_sig_strgth_Min < 0.8 && ob.Precipitation_Tot == 0)
+                if (ob.CO2_sig_strgth_Min < 0.8 && ob.RH_probe_Avg < 90)
                     boundAlerts.Add(
                         new Warning(
                             extractor.FileName,
                             $"CO2_sig_strgth_Min < 0.8 ({ob.CO2_sig_strgth_Min})"));
 
-                if (ob.H2O_sig_strgth_Min < 0.8 && ob.Precipitation_Tot == 0)
+                if (ob.H2O_sig_strgth_Min < 0.8 && ob.RH_probe_Avg < 90)
                     boundAlerts.Add(
                         new Warning(
                             extractor.FileName,
