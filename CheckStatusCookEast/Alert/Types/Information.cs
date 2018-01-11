@@ -16,7 +16,7 @@ namespace Caf.CafMeteorologicalECTower.CafECTowerAlerts.CheckStatusCookEast.Aler
 
         public override string ToString()
         {
-            string s = $"[INFO] {base.ToString()}";
+            string s = $"[I] {base.ToString()}";
             return s;
         }
     }

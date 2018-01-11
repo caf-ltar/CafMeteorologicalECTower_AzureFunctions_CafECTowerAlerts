@@ -17,6 +17,8 @@ namespace Caf.CafMeteorologicalECTower.CafECTowerAlerts.CheckStatusCookEast.Core
         private readonly TOA5Extractor extractor;
         private readonly ISendAlerts alerter;
 
+        const int TWITTER_CHAR_LIMIT = 280;
+
         public StatusChecker(
             TOA5Extractor extractor,
             ISendAlerts alerter)
@@ -48,7 +50,12 @@ namespace Caf.CafMeteorologicalECTower.CafECTowerAlerts.CheckStatusCookEast.Core
 
             if(alerts.Count > 0)
             {
-                alerter.SendAlert(string.Join("\r\n", alerts));
+                string alert = string.Join("\r\n", alerts);
+                if (alert.Length > TWITTER_CHAR_LIMIT)
+                {
+                    alert = getExceedsCharMessage();
+                }
+                alerter.SendAlert(alert);
                 sentAlert = true;
             }
 
@@ -106,58 +113,67 @@ namespace Caf.CafMeteorologicalECTower.CafECTowerAlerts.CheckStatusCookEast.Core
                     boundAlerts.Add(
                         new Warning(
                             extractor.FileName,
-                            $"CO2_sig_strgth_Min < 0.8 ({ob.CO2_sig_strgth_Min})"));
+                            $"CO2_sig_strgth_Min < 0.8 ({getShortString(ob.CO2_sig_strgth_Min)})"));
 
                 if (ob.H2O_sig_strgth_Min < 0.8 && ob.RH_probe_Avg < 90)
                     boundAlerts.Add(
                         new Warning(
                             extractor.FileName,
-                            $"H2O_sig_strgth_Min < 0.8 ({ob.H2O_sig_strgth_Min})"));
+                            $"H2O_sig_strgth_Min < 0.8 ({getShortString(ob.H2O_sig_strgth_Min)})"));
 
                 if (ob.batt_volt_Avg < 12.5 && ob.batt_volt_Avg >= 12.1)
                     boundAlerts.Add(
                         new Information(
                             extractor.FileName,
-                            $"batt_volt_Avg low ({ob.batt_volt_Avg})"));
+                            $"batt_volt_Avg low ({getShortString(ob.batt_volt_Avg)})"));
                 
                 if (ob.batt_volt_Avg < 12.1 && ob.batt_volt_Avg >= 11.6)
                     boundAlerts.Add(
                         new Warning(
                             extractor.FileName,
-                            $"batt_volt_Avg low ({ob.batt_volt_Avg})"));
+                            $"batt_volt_Avg low ({getShortString(ob.batt_volt_Avg)})"));
 
                 if (ob.batt_volt_Avg < 11.6)
                     boundAlerts.Add(
                             new Error(
                                 extractor.FileName,
-                                $"batt_volt_Avg < 11.6 ({ob.batt_volt_Avg})"));
+                                $"batt_volt_Avg < 11.6 ({getShortString(ob.batt_volt_Avg)})"));
 
                 if (ob.sonic_samples_Tot < 13500)
                     boundAlerts.Add(
                             new Warning(
                                 extractor.FileName,
-                                $"sonic_samples_Tot < 13500 ({ob.sonic_samples_Tot})"));
+                                $"sonic_samples_Tot < 13500 ({getShortString(ob.sonic_samples_Tot)})"));
 
                 if (ob.CO2_samples_Tot < 13500)
                     boundAlerts.Add(
                             new Warning(
                                 extractor.FileName,
-                                $"CO2_samples_Tot < 13500 ({ob.CO2_samples_Tot})"));
+                                $"CO2_samples_Tot < 13500 ({getShortString(ob.CO2_samples_Tot)})"));
 
                 if (ob.H2O_samples_Tot < 13500)
                     boundAlerts.Add(
                             new Warning(
                                 extractor.FileName,
-                                $"H2O_samples_Tot < 13500 ({ob.H2O_samples_Tot})"));
+                                $"H2O_samples_Tot < 13500 ({getShortString(ob.H2O_samples_Tot)})"));
 
                 if (ob.door_is_open_Hst > 0)
                     boundAlerts.Add(
                             new Information(
                                 extractor.FileName,
-                                $"door_is_open_Hst > 0 ({ob.door_is_open_Hst})"));
+                                $"door_is_open_Hst > 0 ({getShortString(ob.door_is_open_Hst)})"));
             }
 
             return boundAlerts;
+        }
+
+        private string getShortString(double? val)
+        {
+            return String.Format("{0:0.0}", val);
+        }
+        private string getExceedsCharMessage()
+        {
+            return "The number of errors is too high and has exceeded Twitter's char limit";
         }
     }
 }

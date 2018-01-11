@@ -9,5 +9,7 @@ namespace Caf.CafMeteorologicalECTower.CafECTowerAlerts.CheckStatusCookEast.Aler
     public interface IAlertMessage
     {
         string ToString();
+        string Filename { get; }
+        string Message { get; }
     }
 }

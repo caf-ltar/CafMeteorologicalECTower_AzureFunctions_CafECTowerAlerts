@@ -75,7 +75,7 @@ namespace Caf.CafMeteorologicalECTower.CafECTowerAlerts
                 -8);
             var a = new MockTweeter();
             StatusChecker sut = new StatusChecker(e, a);
-            string expected = "[WARNING] CookEastEcTower_Flux_Raw_2017_11_03_1300_2linesBadCO2.dat: CO2_sig_strgth_Min < 0.8 (0.689).";
+            string expected = "[W] CookEastEcTower_Flux_Raw_2017_11_03_1300_2linesBadCO2.dat: CO2_sig_strgth_Min < 0.8 (0.7).";
 
             // Act
             var alerts = sut.CheckStatus();
@@ -99,7 +99,7 @@ namespace Caf.CafMeteorologicalECTower.CafECTowerAlerts
                 -8);
             var a = new MockTweeter();
             StatusChecker sut = new StatusChecker(e, a);
-            string expected = "[ERROR] CookEastEcTower_Flux_Raw_2017_11_03_1300_2linesBadCO2BadNAN.dat: Null values: old_Uz_Std,tdr315_wc_Avg1,profile_tdr315_wc_Avg1,profile_tdr315_wc_Avg2,tdr315_wc_Avg1,profile_tdr315_wc_Avg1,profile_tdr315_wc_Avg2.\r\n[WARNING] CookEastEcTower_Flux_Raw_2017_11_03_1300_2linesBadCO2BadNAN.dat: CO2_sig_strgth_Min < 0.8 (0.689).";
+            string expected = "[E] CookEastEcTower_Flux_Raw_2017_11_03_1300_2linesBadCO2BadNAN.dat: Null values: old_Uz_Std,profile_tdr315_wc_Avg1,profile_tdr315_wc_Avg2,profile_tdr315_wc_Avg1,profile_tdr315_wc_Avg2.\r\n[W] CookEastEcTower_Flux_Raw_2017_11_03_1300_2linesBadCO2BadNAN.dat: CO2_sig_strgth_Min < 0.8 (0.7).";
 
             // Act
             var alerts = sut.CheckStatus();
@@ -111,15 +111,15 @@ namespace Caf.CafMeteorologicalECTower.CafECTowerAlerts
                 string.Join("\r\n", alerts));
         }
 
-        [Fact]
-        public void Run_QuickTest()
-        {
-            // Arrange
-            var s = new FileStream(fileWithBadNAN, FileMode.Open);
-            var t = new TraceWriterStub(TraceLevel.Verbose);
-
-            CookEastStatusChecker.Run(s, "CookEastEcTower_Flux_Raw_2017_11_03_1300_badNAN.dat", t);
-        }
+        //[Fact]
+        //public void Run_QuickTest()
+        //{
+        //    // Arrange
+        //    var s = new FileStream(fileWithBadNAN, FileMode.Open);
+        //    var t = new TraceWriterStub(TraceLevel.Verbose);
+        //
+        //    CookEastStatusChecker.Run(s, "CookEastEcTower_Flux_Raw_2017_11_03_1300_badNAN.dat", t);
+        //}
         private string convertStreamToString(Stream stream)
         {
             string s;

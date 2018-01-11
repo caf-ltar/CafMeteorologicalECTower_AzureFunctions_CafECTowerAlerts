@@ -22,5 +22,15 @@ namespace Caf.CafMeteorologicalECTower.CafECTowerAlerts.CheckStatusCookEast.Aler
             string s = $"{filename}: {message}.";
             return s;
         }
+
+        public string Filename
+        {
+            get { return filename; }
+        }
+
+        public string Message
+        {
+            get { return message; }
+        }
     }
 }
