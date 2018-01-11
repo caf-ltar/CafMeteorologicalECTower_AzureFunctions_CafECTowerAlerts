@@ -53,7 +53,7 @@ namespace Caf.CafMeteorologicalECTower.CafECTowerAlerts.CheckStatusCookEast.Core
                 string alert = string.Join("\r\n", alerts);
                 if (alert.Length > TWITTER_CHAR_LIMIT)
                 {
-                    alert = getExceedsCharMessage();
+                    alert = getExceedsCharMessage(alerts);
                 }
                 alerter.SendAlert(alert);
                 sentAlert = true;
@@ -180,9 +180,19 @@ namespace Caf.CafMeteorologicalECTower.CafECTowerAlerts.CheckStatusCookEast.Core
         {
             return String.Format("{0:0.0}", val);
         }
-        private string getExceedsCharMessage()
+        private string getExceedsCharMessage(List<IAlertMessage> alerts)
         {
-            return "The number of errors is too high and has exceeded Twitter's char limit";
+            int numFiles = 0;
+            string currFilename = "";
+            foreach(IAlertMessage m in alerts)
+            {
+                if(currFilename != m.Filename)
+                {
+                    numFiles++;
+                    currFilename = m.Filename;
+                }
+            }
+            return $"{alerts.Count} errors from {numFiles} file(s) exceeds Twitters char limit";
         }
     }
 }
