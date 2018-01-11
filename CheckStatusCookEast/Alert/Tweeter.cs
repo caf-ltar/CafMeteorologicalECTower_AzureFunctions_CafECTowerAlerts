@@ -11,6 +11,8 @@ namespace Caf.CafMeteorologicalECTower.CafECTowerAlerts.Alert
         private string accessToken;
         private string accessTokenSecret;
 
+        const int TWITTER_CHAR_LIMIT = 280;
+
         public Tweeter(
             string consumerKey,
             string consumerSecret,
@@ -25,6 +27,11 @@ namespace Caf.CafMeteorologicalECTower.CafECTowerAlerts.Alert
 
         public void SendAlert(string alertMessage)
         {
+            if (alertMessage.Length > TWITTER_CHAR_LIMIT)
+            {
+                alertMessage = getExceedsCharMessage();
+            }
+
             TwitterService twitterService =
                 new TwitterService(consumerKey, consumerSecret);
             twitterService.AuthenticateWith(accessToken, accessTokenSecret);
@@ -36,6 +43,11 @@ namespace Caf.CafMeteorologicalECTower.CafECTowerAlerts.Alert
                 });
 
             var s = result;
+        }
+
+        private string getExceedsCharMessage()
+        {
+            return "Error message exceeds Twitters char limit";
         }
     }
 }

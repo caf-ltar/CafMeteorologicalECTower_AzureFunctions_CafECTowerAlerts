@@ -17,8 +17,6 @@ namespace Caf.CafMeteorologicalECTower.CafECTowerAlerts.CheckStatusCookEast.Core
         private readonly TOA5Extractor extractor;
         private readonly ISendAlerts alerter;
 
-        const int TWITTER_CHAR_LIMIT = 280;
-
         public StatusChecker(
             TOA5Extractor extractor,
             ISendAlerts alerter)
@@ -43,6 +41,10 @@ namespace Caf.CafMeteorologicalECTower.CafECTowerAlerts.CheckStatusCookEast.Core
             return alerts;
         }
 
+        /// <summary>
+        /// Checks the status of the Flux file and broadcasts the results.  The alerter may alter the message so this function returns the original.
+        /// </summary>
+        /// <returns>Raw message constructed by the IAlertMessages</returns>
         public string BroadcastStatus()
         {
             List<IAlertMessage> alerts = CheckStatus();
@@ -51,12 +53,10 @@ namespace Caf.CafMeteorologicalECTower.CafECTowerAlerts.CheckStatusCookEast.Core
             if(alerts.Count > 0)
             {
                 string alert = string.Join("\r\n", alerts);
-                if (alert.Length > TWITTER_CHAR_LIMIT)
-                {
-                    alert = getExceedsCharMessage(alerts);
-                }
-                alerter.SendAlert(alert);
                 alertString = alert;
+
+                
+                alerter.SendAlert(alert);
             }
 
             return alertString;
@@ -179,20 +179,6 @@ namespace Caf.CafMeteorologicalECTower.CafECTowerAlerts.CheckStatusCookEast.Core
         private string getShortString(double? val)
         {
             return String.Format("{0:0.0}", val);
-        }
-        private string getExceedsCharMessage(List<IAlertMessage> alerts)
-        {
-            int numFiles = 0;
-            string currFilename = "";
-            foreach(IAlertMessage m in alerts)
-            {
-                if(currFilename != m.Filename)
-                {
-                    numFiles++;
-                    currFilename = m.Filename;
-                }
-            }
-            return $"{alerts.Count} error(s) from {numFiles} file(s) exceeds Twitters char limit";
         }
     }
 }
