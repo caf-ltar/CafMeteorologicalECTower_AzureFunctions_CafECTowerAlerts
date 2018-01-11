@@ -95,9 +95,18 @@ namespace Caf.CafMeteorologicalECTower.CafECTowerAlerts.CheckStatusCookEast.Core
 
             if(propertiesWithNull.Count > 0)
             {
-                nullAlerts.Add(new Error(
-                    extractor.FileName,
-                    $"Null values: {String.Join(",", propertiesWithNull)}"));
+                if (propertiesWithNull.Count > 3)
+                {
+                    nullAlerts.Add(new Error(
+                        extractor.FileName,
+                        $"Null values > 3"));
+                }
+                else
+                {
+                    nullAlerts.Add(new Error(
+                        extractor.FileName,
+                        $"Null values: {String.Join(",", propertiesWithNull)}"));
+                }
             }
 
             return nullAlerts;

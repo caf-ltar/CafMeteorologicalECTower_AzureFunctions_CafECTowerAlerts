@@ -99,7 +99,7 @@ namespace Caf.CafMeteorologicalECTower.CafECTowerAlerts
                 -8);
             var a = new MockTweeter();
             StatusChecker sut = new StatusChecker(e, a);
-            string expected = "[E] CookEastEcTower_Flux_Raw_2017_11_03_1300_2linesBadCO2BadNAN.dat: Null values: old_Uz_Std,profile_tdr315_wc_Avg1,profile_tdr315_wc_Avg2,profile_tdr315_wc_Avg1,profile_tdr315_wc_Avg2.\r\n[W] CookEastEcTower_Flux_Raw_2017_11_03_1300_2linesBadCO2BadNAN.dat: CO2_sig_strgth_Min < 0.8 (0.7).";
+            string expected = "[E] CookEastEcTower_Flux_Raw_2017_11_03_1300_2linesBadCO2BadNAN.dat: Null values > 3.\r\n[W] CookEastEcTower_Flux_Raw_2017_11_03_1300_2linesBadCO2BadNAN.dat: CO2_sig_strgth_Min < 0.8 (0.7).";
 
             // Act
             var alerts = sut.CheckStatus();
