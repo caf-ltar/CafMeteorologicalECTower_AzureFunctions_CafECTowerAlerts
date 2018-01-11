@@ -43,10 +43,10 @@ namespace Caf.CafMeteorologicalECTower.CafECTowerAlerts.CheckStatusCookEast.Core
             return alerts;
         }
 
-        public bool BroadcastStatus()
+        public string BroadcastStatus()
         {
             List<IAlertMessage> alerts = CheckStatus();
-            bool sentAlert = false;
+            string alertString = "";
 
             if(alerts.Count > 0)
             {
@@ -56,10 +56,10 @@ namespace Caf.CafMeteorologicalECTower.CafECTowerAlerts.CheckStatusCookEast.Core
                     alert = getExceedsCharMessage(alerts);
                 }
                 alerter.SendAlert(alert);
-                sentAlert = true;
+                alertString = alert;
             }
 
-            return sentAlert;
+            return alertString;
         }
 
         private List<IAlertMessage> checkNulls(List<Flux> obs)
@@ -192,7 +192,7 @@ namespace Caf.CafMeteorologicalECTower.CafECTowerAlerts.CheckStatusCookEast.Core
                     currFilename = m.Filename;
                 }
             }
-            return $"{alerts.Count} errors from {numFiles} file(s) exceeds Twitters char limit";
+            return $"{alerts.Count} error(s) from {numFiles} file(s) exceeds Twitters char limit";
         }
     }
 }

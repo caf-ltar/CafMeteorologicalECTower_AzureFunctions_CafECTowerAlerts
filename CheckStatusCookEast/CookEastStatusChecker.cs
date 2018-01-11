@@ -17,8 +17,6 @@ namespace Caf.CafMeteorologicalECTower.CafECTowerAlerts
             string name,
             TraceWriter log)
         {
-            log.Info($"Found blob: {name}");
-
             string content;
             using (var reader = new StreamReader(inBlob, true))
             {
@@ -35,9 +33,10 @@ namespace Caf.CafMeteorologicalECTower.CafECTowerAlerts
             StatusChecker statusChecker = new StatusChecker(
                 extractor, tweeter);
 
-            bool sentAlert = statusChecker.BroadcastStatus();
+            string alert = statusChecker.BroadcastStatus();
 
-            log.Info($"Sent alert: {sentAlert.ToString()}");
+            if(!string.IsNullOrEmpty(alert))
+                log.Info($"Alert: {alert}");
         }
     }
 }
